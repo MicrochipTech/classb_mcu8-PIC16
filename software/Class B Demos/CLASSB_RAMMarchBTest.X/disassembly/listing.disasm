@@ -1,0 +1,490 @@
+Disassembly Listing for CLASSB_RAMMarchBTest
+Generated From:
+
+---  C:/Users/C13819/Documents/Class_B/Class B/ClassB PIC12-16 Library Version 3.00/Class B Demos/CLASSB_RAMMarchBTest.X/CLASSB_RAMMarchBTest.c
+1:             /**********************************************************************
+2:             * © 2010 Microchip Technology Inc.
+3:             *
+4:             * FileName:        SSL_MarchBRamTest.c
+5:             * Dependencies:    Header (.h) files if applicable, see below
+6:             * Processor:       PIC16FXXX
+7:             * Compiler:        HI-TECH 9.81
+8:             *
+9:             * SOFTWARE LICENSE AGREEMENT:
+10:            * Microchip Technology Inc. (“Microchip”) licenses this software to you
+11:            * solely for use with Microchip PIC® microcontroller
+12:            * products. The software is owned by Microchip and is protected under
+13:            * applicable copyright laws.  All rights reserved.
+14:            *
+15:            * SOFTWARE IS PROVIDED “AS IS.”  MICROCHIP EXPRESSLY DISCLAIMS ANY
+16:            * WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT
+17:            * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+18:            * PARTICULAR PURPOSE, OR NON-INFRINGEMENT. IN NO EVENT SHALL MICROCHIP
+19:            * BE LIABLE FOR ANY INCIDENTAL, SPECIAL, INDIRECT OR CONSEQUENTIAL
+20:            * DAMAGES, LOST PROFITS OR LOST DATA, HARM TO YOUR EQUIPMENT, COST OF
+21:            * PROCUREMENT OF SUBSTITUTE GOODS, TECHNOLOGY OR SERVICES, ANY CLAIMS
+22:            * BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF),
+23:            * ANY CLAIMS FOR INDEMNITY OR CONTRIBUTION, OR OTHER SIMILAR COSTS.
+24:            *
+25:            * REVISION HISTORY:
+26:            *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+27:            * Author            Date      Comments on this revision
+28:            *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+29:            * CT                08/15/2008  First release of source file
+30:            * Mike Cahill		11/11/2010	Updated for HI-TECH v9.80
+31:            * MVL				02/22/2011	Modified for HI-TECH v9.80 & v9.81
+32:            *
+33:            *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+34:            * ADDITIONAL NOTES:
+35:            *
+36:            **********************************************************************/
+37:            
+38:            //#define VOIDP2U8(startAddress,i) ((uint8_t *)(startAddress))[i]
+39:            
+40:            //VOIDP2U8 (startAddress,i);
+41:            //;Some_var = VOIDP2U8(startAddress,i);
+42:            
+43:            
+44:            
+45:            #include "CLASSB_RAMMarchBTest.h"
+46:            
+47:            //#define MAX_MEM ( MARCHB_RAM_STOP_ADDRESS - MARCHB_RAM_START_ADDRESS +1 )
+48:            	//volatile unsigned char *data = MARCHB_RAM_START_ADDRESS;
+49:            
+50:            
+51:            void main()
+52:            {
+53:            	volatile unsigned char testResult;
+54:            	uint8_t* startAddress;
+55:            	size_t length;
+56:            	uint8_t* bufferAddress;
+57:            
+58:            	testResult = CLASSB_RAMMarchBTestF(startAddress, length, bufferAddress);
+06F6  0821     MOVF 0x21, W
+06F7  00F4     MOVWF 0x74
+06F8  0820     MOVF length, W
+06F9  00F3     MOVWF length
+06FA  0823     MOVF bufferAddress, W
+06FB  00F5     MOVWF 0x75
+06FC  0822     MOVF startAddress, W
+06FD  2708     CALL 0x708
+06FE  3186     MOVLP 0x6
+06FF  00A4     MOVWF testResult
+59:            
+60:            
+61:            	if (testResult == CLASSB_TEST_PASS)
+0700  08A4     MOVF testResult, F
+0701  1D03     BTFSS STATUS, 0x2
+0702  2F05     GOTO 0x705
+62:                    {
+63:            		asm("nop");		/* Test pass */
+0703  0000     NOP
+64:            	}
+0704  2F06     GOTO 0x706
+65:            	else
+66:                    {
+67:            		asm("nop");		/* Test not pass */
+0705  0000     NOP
+68:            	}
+69:            }
+0706  3180     MOVLP 0x0
+70:                   
+71:            
+72:            /*******************************************************************
+73:            * Description  : This function implements the March B test. It is a complete and irredundant test
+74:            * capable of detecting stuck-at faults , linked coupling Idempotent faults or Inversion Coupling
+75:            * faults. This test is of complexity 17n( Where n is the number of bits).
+76:            * Input:
+77:            *     *startAddress  	:  pointer to an array declared in user memory for test
+78:            *     length 			:  value indicating the number of bytes to test
+79:            *     *bufferAddress    :  pointer to location in memory where array will be stored during test
+80:            * Return Values:
+81:            *     MARCHB_RAM_TEST_FAIL 	:  return value = 0
+82:            *     MARCHB_RAM_TEST_PASS 	:  return value = 1
+83:            *                                                                 
+84:            *******************************************************************/
+85:            CLASSBRESULT CLASSB_RAMMarchBTestF(void* startAddress, size_t length, void* bufferAddress)
+86:            {
+87:            	volatile unsigned char i;
+88:                size_t testResult;
+89:            
+90:            //***********************************************
+91:            	for (  i=0;i<=(length-1);i++)
+0708  00FA     MOVWF 0x7A
+0709  01FD     CLRF i
+070A  087D     MOVF i, W
+070B  00F6     MOVWF 0x76
+070C  01F7     CLRF 0x77
+070D  0873     MOVF length, W
+070E  3EFF     ADDLW 0xFF
+070F  00F8     MOVWF 0x78
+0710  30FF     MOVLW 0xFF
+0711  3D74     ADDWFC 0x74, W
+0712  00F9     MOVWF 0x79
+0713  0877     MOVF 0x77, W
+0714  0279     SUBWF 0x79, W
+0715  1D03     BTFSS STATUS, 0x2
+0716  2F19     GOTO 0x719
+0717  0876     MOVF 0x76, W
+0718  0278     SUBWF 0x78, W
+0719  1C03     BTFSS STATUS, 0x0
+071A  2F1D     GOTO 0x71D
+071B  0AFD     INCF i, F
+071C  2F0A     GOTO 0x70A
+92:            		{
+93:            			((uint8_t*)startAddress)[i]=0x00;
+94:            		}
+95:            //***********************************************
+96:            	for (  i=0;i<=(length-1);i++)
+071D  01FD     CLRF i
+071E  087D     MOVF i, W
+071F  00F6     MOVWF 0x76
+0720  01F7     CLRF 0x77
+0721  0873     MOVF length, W
+0722  3EFF     ADDLW 0xFF
+0723  00F8     MOVWF 0x78
+0724  30FF     MOVLW 0xFF
+0725  3D74     ADDWFC 0x74, W
+0726  00F9     MOVWF 0x79
+0727  0877     MOVF 0x77, W
+0728  0279     SUBWF 0x79, W
+0729  1D03     BTFSS STATUS, 0x2
+072A  2F2D     GOTO 0x72D
+072B  0876     MOVF 0x76, W
+072C  0278     SUBWF 0x78, W
+072D  1C03     BTFSS STATUS, 0x0
+072E  2F3A     GOTO 0x73A
+0738  0AFD     INCF i, F
+0739  2F1E     GOTO 0x71E
+97:            	{
+98:            		testResult = Rd0Wr1Rd1Wr0Rd0Wr1 (&((uint8_t*)startAddress)[i]);
+072F  087A     MOVF 0x7A, W
+0730  077D     ADDWF i, W
+0731  27C6     CALL 0x7C6
+0732  3186     MOVLP 0x6
+0733  00FB     MOVWF testResult
+0734  01FC     CLRF 0x7C
+99:            		if ( !testResult)
+0735  047C     IORWF 0x7C, W
+0736  1903     BTFSC STATUS, 0x2
+100:                        return CLASSB_TEST_FAIL;
+0737  3401     RETLW 0x1
+101:           	}
+102:           //***********************************************
+103:           	for (  i=0;i<=(length-1);i++)
+073A  01FD     CLRF i
+073B  087D     MOVF i, W
+073C  00F6     MOVWF 0x76
+073D  01F7     CLRF 0x77
+073E  0873     MOVF length, W
+073F  3EFF     ADDLW 0xFF
+0740  00F8     MOVWF 0x78
+0741  30FF     MOVLW 0xFF
+0742  3D74     ADDWFC 0x74, W
+0743  00F9     MOVWF 0x79
+0744  0877     MOVF 0x77, W
+0745  0279     SUBWF 0x79, W
+0746  1D03     BTFSS STATUS, 0x2
+0747  2F4A     GOTO 0x74A
+0748  0876     MOVF 0x76, W
+0749  0278     SUBWF 0x78, W
+074A  1C03     BTFSS STATUS, 0x0
+074B  2F57     GOTO 0x757
+0755  0AFD     INCF i, F
+0756  2F3B     GOTO 0x73B
+104:           	{
+105:           		testResult = Rd1Wr0Wr1 (&((uint8_t*)startAddress)[i]);
+074C  087A     MOVF 0x7A, W
+074D  077D     ADDWF i, W
+074E  27B2     CALL 0x7B2
+074F  3186     MOVLP 0x6
+0750  00FB     MOVWF testResult
+0751  01FC     CLRF 0x7C
+106:           		if ( !testResult)
+0752  047C     IORWF 0x7C, W
+0753  1903     BTFSC STATUS, 0x2
+0754  3401     RETLW 0x1
+107:                        return CLASSB_TEST_FAIL;
+108:           	}
+109:           //***********************************************
+110:           	for (i=(length-1); i > 0;i--)
+0757  0873     MOVF length, W
+0758  3EFF     ADDLW 0xFF
+0759  00FD     MOVWF i
+075A  08FD     MOVF i, F
+075B  1903     BTFSC STATUS, 0x2
+075C  2F68     GOTO 0x768
+0766  0BFD     DECFSZ i, F
+0767  2F5D     GOTO 0x75D
+111:           	{
+112:           		testResult = Rd1Wr0Wr1Wr0 (&((uint8_t*)startAddress)[i]);
+075D  087A     MOVF 0x7A, W
+075E  077D     ADDWF i, W
+075F  279E     CALL 0x79E
+0760  3186     MOVLP 0x6
+0761  00FB     MOVWF testResult
+0762  01FC     CLRF 0x7C
+113:           		if ( !testResult)
+0763  047C     IORWF 0x7C, W
+0764  1903     BTFSC STATUS, 0x2
+0765  3401     RETLW 0x1
+114:                        return CLASSB_TEST_FAIL;
+115:           	}
+116:           		// do this once more time for zero
+117:           		testResult = Rd1Wr0Wr1Wr0 (&((uint8_t*)startAddress)[0]);
+0768  087A     MOVF 0x7A, W
+0769  279E     CALL 0x79E
+076A  3186     MOVLP 0x6
+076B  00FB     MOVWF testResult
+076C  01FC     CLRF 0x7C
+118:           		if ( !testResult)
+076D  047C     IORWF 0x7C, W
+076E  1903     BTFSC STATUS, 0x2
+076F  3401     RETLW 0x1
+119:                        return CLASSB_TEST_FAIL;
+120:           //***********************************************
+121:           	for (i=(length-1); i > 0;i--)
+0770  0873     MOVF length, W
+0771  3EFF     ADDLW 0xFF
+0772  00FD     MOVWF i
+0773  08FD     MOVF i, F
+0774  1903     BTFSC STATUS, 0x2
+0775  2F81     GOTO 0x781
+077F  0BFD     DECFSZ i, F
+0780  2F76     GOTO 0x776
+122:           	{
+123:           		testResult = Rd0Wr1Wr0 (&((uint8_t*)startAddress)[i]);
+0776  087A     MOVF 0x7A, W
+0777  077D     ADDWF i, W
+0778  278A     CALL 0x78A
+0779  3186     MOVLP 0x6
+077A  00FB     MOVWF testResult
+077B  01FC     CLRF 0x7C
+124:           		if ( !testResult)
+077C  047C     IORWF 0x7C, W
+077D  1903     BTFSC STATUS, 0x2
+077E  3401     RETLW 0x1
+125:                        return CLASSB_TEST_FAIL;
+126:           	}
+127:           		// do this once more time for zero
+128:           		testResult = Rd0Wr1Wr0 (&((uint8_t*)startAddress)[0]);
+0781  087A     MOVF 0x7A, W
+0782  278A     CALL 0x78A
+0783  3186     MOVLP 0x6
+0784  00FB     MOVWF testResult
+0785  01FC     CLRF 0x7C
+129:           		if ( !testResult)
+0786  047C     IORWF 0x7C, W
+0787  1D03     BTFSS STATUS, 0x2
+0789  3401     RETLW 0x1
+130:                        return CLASSB_TEST_FAIL;
+131:           //***********************************************
+132:           	return CLASSB_TEST_PASS; 
+0788  3400     RETLW 0x0
+133:           }
+078A  00F1     MOVWF 0x71
+134:           
+135:           
+136:           
+137:           
+138:           //***********************************************
+139:           unsigned char Rd0Wr1Rd1Wr0Rd0Wr1 (uint8_t* test_data)
+140:           {
+141:           volatile unsigned char r;
+142:           		// read zero , write 1
+143:           		for (r=0; r<8;r++)
+07C6  00F1     MOVWF 0x71
+07D8  0AF2     INCF r, F
+07D9  2FC8     GOTO 0x7C8
+144:           		{
+145:           			if ( (*test_data >>r ) & 0x01)
+07CC  0871     MOVF 0x71, W
+07CD  0086     MOVWF FSR1L
+07CE  0187     CLRF FSR1H
+07CF  0801     MOVF INDF1, W
+07D0  00F0     MOVWF 0x70
+07D1  0A72     INCF r, W
+07D2  2FD4     GOTO 0x7D4
+07D3  36F0     LSRF 0x70, F
+07D4  0B89     DECFSZ WREG, F
+07D5  2FD3     GOTO 0x7D3
+07D6  1870     BTFSC 0x70, 0x0
+146:           				return FAIL;
+07D7  3400     RETLW 0x0
+147:           			else
+148:           				*test_data=*test_data | (1<<r);
+149:           		}
+150:           		// read one write zero
+151:           		for (r=0; r<8;r++)
+07DA  01F2     CLRF r
+07DB  3008     MOVLW 0x8
+07DC  0272     SUBWF r, W
+07DD  1803     BTFSC STATUS, 0x0
+07DE  2FED     GOTO 0x7ED
+07EB  0AF2     INCF r, F
+07EC  2FDB     GOTO 0x7DB
+152:           		{
+153:           			if ( ((*test_data >>r ) & 0x01) != 0x01)
+07DF  0871     MOVF 0x71, W
+07E0  0086     MOVWF FSR1L
+07E1  0187     CLRF FSR1H
+07E2  0801     MOVF INDF1, W
+07E3  00F0     MOVWF 0x70
+07E4  0A72     INCF r, W
+07E5  2FE7     GOTO 0x7E7
+07E6  36F0     LSRF 0x70, F
+07E7  0B89     DECFSZ WREG, F
+07E8  2FE6     GOTO 0x7E6
+07E9  1C70     BTFSS 0x70, 0x0
+07EA  3400     RETLW 0x0
+154:           				return FAIL;
+155:           			else
+156:           				*test_data=*test_data & ~(1<<r);
+157:           		}
+158:           		// read zero , write 1
+159:           		for (r=0; r<8;r++)
+07ED  01F2     CLRF r
+07EE  3008     MOVLW 0x8
+07EF  0272     SUBWF r, W
+07F0  1803     BTFSC STATUS, 0x0
+07F1  3401     RETLW 0x1
+07FE  0AF2     INCF r, F
+07FF  2FEE     GOTO 0x7EE
+160:           		{
+161:           			if ( (*test_data >>r ) & 0x01)
+07F2  0871     MOVF 0x71, W
+07F3  0086     MOVWF FSR1L
+07F4  0187     CLRF FSR1H
+07F5  0801     MOVF INDF1, W
+07F6  00F0     MOVWF 0x70
+07F7  0A72     INCF r, W
+07F8  2FFA     GOTO 0x7FA
+07F9  36F0     LSRF 0x70, F
+07FA  0B89     DECFSZ WREG, F
+07FB  2FF9     GOTO 0x7F9
+07FC  1870     BTFSC 0x70, 0x0
+07FD  3400     RETLW 0x0
+162:           				return FAIL;
+163:           			else
+164:           				*test_data=*test_data | (1<<r);
+165:           		} 
+166:           		return PASS;
+167:           }
+0800  3FFF     MOVWI [-1]FSR1
+168:           
+169:           
+170:           
+171:           
+172:           //***********************************************
+173:           unsigned char Rd1Wr0Wr1(uint8_t* test_data)
+174:           {
+175:           volatile unsigned char r;
+176:           		// read one write zero write one
+177:           		for (r=0; r<8;r++)
+07B2  00F1     MOVWF 0x71
+07C4  0AF2     INCF r, F
+07C5  2FB4     GOTO 0x7B4
+178:           		{
+179:           			if ( ((*test_data >>r ) & 0x01) != 0x01)
+07B8  0871     MOVF 0x71, W
+07B9  0086     MOVWF FSR1L
+07BA  0187     CLRF FSR1H
+07BB  0801     MOVF INDF1, W
+07BC  00F0     MOVWF 0x70
+07BD  0A72     INCF r, W
+07BE  2FC0     GOTO 0x7C0
+07BF  36F0     LSRF 0x70, F
+07C0  0B89     DECFSZ WREG, F
+07C1  2FBF     GOTO 0x7BF
+07C2  1C70     BTFSS 0x70, 0x0
+180:           				return FAIL;
+07C3  3400     RETLW 0x0
+181:           			else
+182:           			{
+183:           				*test_data=*test_data & ~(1<<r);
+184:           				*test_data=*test_data | (1<<r);
+185:           			}	
+186:           		}
+187:           
+188:           	return PASS;
+189:           } 
+07C6  00F1     MOVWF 0x71
+190:           
+191:           
+192:           
+193:           
+194:           //***********************************************
+195:           unsigned char Rd1Wr0Wr1Wr0(uint8_t* test_data)
+196:           {
+197:           volatile unsigned char r;
+198:           		// read one, write zero, write one, write 0
+199:           		for (r=0; r<8;r++)
+079E  00F1     MOVWF 0x71
+07B0  0AF2     INCF r, F
+07B1  2FA0     GOTO 0x7A0
+200:           		{
+201:           			if ( ((*test_data <<r ) & 0x80) != 0x80)
+07A4  0871     MOVF 0x71, W
+07A5  0086     MOVWF FSR1L
+07A6  0187     CLRF FSR1H
+07A7  0801     MOVF INDF1, W
+07A8  00F0     MOVWF 0x70
+07A9  0A72     INCF r, W
+07AA  2FAC     GOTO 0x7AC
+07AB  35F0     LSLF 0x70, F
+07AC  0B89     DECFSZ WREG, F
+07AD  2FAB     GOTO 0x7AB
+07AE  1FF0     BTFSS 0x70, 0x7
+202:           				return FAIL;
+07AF  3400     RETLW 0x0
+203:           			else
+204:           			{
+205:           				*test_data=*test_data & ~(1>>r);
+206:           				*test_data=*test_data | (1>>r);
+207:           				*test_data=*test_data & ~(1>>r);
+208:           			}	
+209:           		}
+210:           
+211:           	return PASS;
+212:           } 
+07B2  00F1     MOVWF 0x71
+213:           
+214:           
+215:           //***********************************************
+216:           unsigned char Rd0Wr1Wr0 (uint8_t* test_data)
+217:           {
+218:           volatile unsigned char r;
+219:           		// read zero , write 1, write 0
+220:           		for (r=0; r<8;r++)
+078A  00F1     MOVWF 0x71
+078B  01F2     CLRF r
+078C  3008     MOVLW 0x8
+078D  0272     SUBWF r, W
+078E  1803     BTFSC STATUS, 0x0
+078F  3401     RETLW 0x1
+079C  0AF2     INCF r, F
+079D  2F8C     GOTO 0x78C
+221:           		{
+222:           			if ( (*test_data <<r ) & 0x80)
+0790  0871     MOVF 0x71, W
+0791  0086     MOVWF FSR1L
+0792  0187     CLRF FSR1H
+0793  0801     MOVF INDF1, W
+0794  00F0     MOVWF 0x70
+0795  0A72     INCF r, W
+0796  2F98     GOTO 0x798
+0797  35F0     LSLF 0x70, F
+0798  0B89     DECFSZ WREG, F
+0799  2F97     GOTO 0x797
+079A  1BF0     BTFSC 0x70, 0x7
+223:           				return FAIL;
+079B  3400     RETLW 0x0
+224:           			else
+225:           			{	
+226:           				*test_data=*test_data | (1>>r);
+227:           				*test_data=*test_data & ~(1>>r);
+228:           			}
+229:           		}
+230:           	return PASS;
+231:           }
+079E  00F1     MOVWF 0x71

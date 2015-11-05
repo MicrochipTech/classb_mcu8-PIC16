@@ -1,0 +1,978 @@
+Disassembly Listing for CLASSB_RAMMarchCStackTest
+Generated From:
+C:/Users/C13819/Documents/Class_B/Class B/ClassB PIC12-16 Library Version 3.00/Class B Demos/CLASSB_RAMMarchCStackTest.X/dist/default/debug/CLASSB_RAMMarchCStackTest.X.debug.cof
+May 9, 2013 10:28:46 AM
+
+---  C:/Users/C13819/Documents/Class_B/Class B/ClassB PIC12-16 Library Version 3.00/Class B Demos/CLASSB_RAMMarchCStackTest.X/main.c
+1:             /**********************************************************************
+2:             * © 2013 Microchip Technology Inc.
+3:             *
+4:             * Project Name:     Class B Library
+5:             * FileName:         main.c
+6:             * Dependencies:     CLASSB_RAMMarchCTest.h, CLASSB_RAMMarchCTest.c
+7:             * Processor:        PIC16F1xxx
+8:             * Compiler:         XC8
+9:             * IDE:              MPLAB® IDE or MPLAB® X
+10:            * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+11:            * Description:     This file contains the main function to demonstrate
+12:            *                  the use of the CLASSB March C Test.
+13:            *
+14:            **************************************************************************
+15:             * MICROCHIP SOFTWARE NOTICE AND DISCLAIMER: You may use this software, and
+16:             * any derivatives created by any person or entity by or on your behalf,
+17:             * exclusively with Microchip's products in accordance with applicable
+18:             * software license terms and conditions, a copy of which is provided for
+19:             * your referencein accompanying documentation. Microchip and its licensors
+20:             * retain all ownership and intellectual property rights in the
+21:             * accompanying software and in all derivatives hereto.
+22:             *
+23:             * This software and any accompanying information is for suggestion only.
+24:             * It does not modify Microchip's standard warranty for its products. You
+25:             * agree that you are solely responsible for testing the software and
+26:             * determining its suitability. Microchip has no obligation to modify,
+27:             * test, certify, or support the software.
+28:             *
+29:             * THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
+30:             * EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED
+31:             * WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A
+32:             * PARTICULAR PURPOSE APPLY TO THIS SOFTWARE, ITS INTERACTION WITH
+33:             * MICROCHIP'S PRODUCTS, COMBINATION WITH ANY OTHER PRODUCTS, OR USE IN ANY
+34:             * APPLICATION.
+35:             *
+36:             * IN NO EVENT, WILL MICROCHIP BE LIABLE, WHETHER IN CONTRACT, WARRANTY,
+37:             * TORT (INCLUDING NEGLIGENCE OR BREACH OF STATUTORY DUTY), STRICT
+38:             * LIABILITY, INDEMNITY, CONTRIBUTION, OR OTHERWISE, FOR ANY INDIRECT,
+39:             * SPECIAL, PUNITIVE, EXEMPLARY, INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE,
+40:             * FOR COST OR EXPENSE OF ANY KIND WHATSOEVER RELATED TO THE SOFTWARE,
+41:             * HOWSOEVER CAUSED, EVEN IF MICROCHIP HAS BEEN ADVISED OF THE POSSIBILITY
+42:             * OR THE DAMAGES ARE FORESEEABLE. TO THE FULLEST EXTENT ALLOWABLE BY LAW,
+43:             * MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN ANY WAY RELATED TO THIS
+44:             * SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY, THAT YOU HAVE PAID
+45:             * DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
+46:             *
+47:             * MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF
+48:             * THESE TERMS.
+49:             *************************************************************************
+50:            *
+51:            * REVISION HISTORY:
+52:            *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+53:            * Author            Date      Comments on this revision
+54:            *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+55:            * CT                09/15/2008  First release of source file
+56:            * Mike Cahill       11/11/2010	Updated for HI-TECH v9.80
+57:            * MVL               02/22/2011	Modified for HI-TECH v9.81
+58:            * EA                02/18/2012	Made corrections to March C Minus routine
+59:            * Corey Simoncic    04/19/2013  Updated for XC-8
+60:            *
+61:            * Version       3.00
+62:            *
+63:            *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+64:            * ADDITIONAL NOTES:
+65:            *
+66:            **********************************************************************/
+67:            #include "CLASSB_config.h"
+68:            #include "CLASSB.h"
+69:            
+70:            #include <xc.h>
+71:            
+72:            // CONFIG1
+73:            #pragma config FOSC = INTOSC    // Oscillator Selection (INTOSC oscillator: I/O function on CLKIN pin)
+74:            #pragma config WDTE = OFF       // Watchdog Timer Enable (WDT disabled)
+75:            #pragma config PWRTE = OFF      // Power-up Timer Enable (PWRT disabled)
+76:            #pragma config MCLRE = ON       // MCLR Pin Function Select (MCLR/VPP pin function is MCLR)
+77:            #pragma config CP = OFF         // Flash Program Memory Code Protection (Program memory code protection is disabled)
+78:            #pragma config CPD = OFF        // Data Memory Code Protection (Data memory code protection is disabled)
+79:            #pragma config BOREN = OFF      // Brown-out Reset Enable (Brown-out Reset disabled)
+80:            #pragma config CLKOUTEN = OFF   // Clock Out Enable (CLKOUT function is disabled. I/O or oscillator function on the CLKOUT pin)
+81:            #pragma config IESO = OFF       // Internal/External Switchover (Internal/External Switchover mode is disabled)
+82:            #pragma config FCMEN = OFF      // Fail-Safe Clock Monitor Enable (Fail-Safe Clock Monitor is disabled)
+83:            
+84:            // CONFIG2
+85:            #pragma config WRT = OFF        // Flash Memory Self-Write Protection (Write protection off)
+86:            #pragma config VCAPEN = OFF     // Voltage Regulator Capacitor Enable (All VCAP pin functionality is disabled)
+87:            #pragma config PLLEN = OFF      // PLL Enable (4x PLL disabled)
+88:            #pragma config STVREN = OFF     // Stack Overflow/Underflow Reset Enable (Stack Overflow or Underflow will not cause a Reset)
+89:            #pragma config BORV = LO        // Brown-out Reset Voltage Selection (Brown-out Reset Voltage (Vbor), low trip point selected.)
+90:            #pragma config LVP = OFF        // Low-Voltage Programming Enable (High-voltage on MCLR/VPP must be used for programming)
+91:            
+92:            void testCall1(void);
+93:            void testCall2(void);
+94:            
+95:            void main()
+96:            {
+97:                TRISA = 0;
+067E  0021     MOVLB 0x1
+067F  018C     CLRF PORTA
+98:                LATA = 0;
+0680  0022     MOVLB 0x2
+0681  018C     CLRF PORTA
+99:            
+100:               CLASSB_MarchbufferAddress = (char*)0x27;
+0682  3027     MOVLW 0x27
+0683  0020     MOVLB 0x0
+0684  00A2     MOVWF CLASSB_MarchbufferAddress
+0686  01A3     CLRF 0x23
+101:               CLASSB_MarchLength = 33;
+0685  3021     MOVLW 0x21
+0687  00A6     MOVWF CLASSB_MarchLength
+102:           
+103:               testCall1();
+0688  268D     CALL 0x68D
+0689  3186     MOVLP 0x6
+104:               NOP();
+068A  0000     NOP
+105:               NOP();
+068B  0000     NOP
+106:           
+107:               while(1);
+068C  2E8C     GOTO 0x68C
+108:           }
+109:           
+110:           void testCall1 (void)
+111:           {
+112:               testCall2();
+068D  2691     CALL 0x691
+113:               NOP();
+068E  0000     NOP
+114:               NOP();
+068F  0000     NOP
+115:               return;
+116:           }
+0690  0008     RETURN
+117:           
+118:           void testCall2 (void)
+119:           {
+120:               volatile unsigned char testResult;
+121:           
+122:               testResult = CLASSB_RAMMarchCStackTest();
+0691  269F     CALL 0x69F
+0692  3186     MOVLP 0x6
+0693  00F2     MOVWF testResult
+123:           
+124:               if (testResult==CLASSB_TEST_PASS)
+0694  08F2     MOVF testResult, F
+0695  1D03     BTFSS STATUS, 0x2
+0696  2E9B     GOTO 0x69B
+125:               {
+126:                   NOP();		/* Test pass */
+0697  0000     NOP
+127:                   LATA1 = 1;
+0698  0022     MOVLB 0x2
+0699  148C     BSF PORTA, 0x1
+128:                   return;
+069A  0008     RETURN
+129:               }
+130:               else
+131:               {
+132:                   NOP();		/* Test fail */
+069B  0000     NOP
+133:                   LATA0 = 1;
+069C  0022     MOVLB 0x2
+069D  140C     BSF PORTA, 0x0
+134:                   return;
+135:               }
+136:           }
+069E  0008     RETURN
+---  C:/Users/C13819/Documents/Class_B/Class B/ClassB PIC12-16 Library Version 3.00/Class B Demos/CLASSB_RAMMarchCStackTest.X/CLASSB_RAMMarchCStackTest.c
+1:             /**********************************************************************
+2:             * © 2013 Microchip Technology Inc.
+3:             *
+4:             * Project Name:     Class B Library
+5:             * FileName:         CLASSB_RAMMarchCTest.c
+6:             * Dependencies:     CLASSB_RAMMarchCTest.h
+7:             * Processor:        PIC16F1xxx
+8:             * Compiler:         XC8
+9:             * IDE:              MPLAB® IDE or MPLAB® X
+10:            * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+11:            * Description:     This file contains functions to RAM with MarchC Test.
+12:            *
+13:            **************************************************************************
+14:             * MICROCHIP SOFTWARE NOTICE AND DISCLAIMER: You may use this software, and
+15:             * any derivatives created by any person or entity by or on your behalf,
+16:             * exclusively with Microchip's products in accordance with applicable
+17:             * software license terms and conditions, a copy of which is provided for
+18:             * your referencein accompanying documentation. Microchip and its licensors
+19:             * retain all ownership and intellectual property rights in the
+20:             * accompanying software and in all derivatives hereto.
+21:             *
+22:             * This software and any accompanying information is for suggestion only.
+23:             * It does not modify Microchip's standard warranty for its products. You
+24:             * agree that you are solely responsible for testing the software and
+25:             * determining its suitability. Microchip has no obligation to modify,
+26:             * test, certify, or support the software.
+27:             *
+28:             * THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
+29:             * EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED
+30:             * WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A
+31:             * PARTICULAR PURPOSE APPLY TO THIS SOFTWARE, ITS INTERACTION WITH
+32:             * MICROCHIP'S PRODUCTS, COMBINATION WITH ANY OTHER PRODUCTS, OR USE IN ANY
+33:             * APPLICATION.
+34:             *
+35:             * IN NO EVENT, WILL MICROCHIP BE LIABLE, WHETHER IN CONTRACT, WARRANTY,
+36:             * TORT (INCLUDING NEGLIGENCE OR BREACH OF STATUTORY DUTY), STRICT
+37:             * LIABILITY, INDEMNITY, CONTRIBUTION, OR OTHERWISE, FOR ANY INDIRECT,
+38:             * SPECIAL, PUNITIVE, EXEMPLARY, INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE,
+39:             * FOR COST OR EXPENSE OF ANY KIND WHATSOEVER RELATED TO THE SOFTWARE,
+40:             * HOWSOEVER CAUSED, EVEN IF MICROCHIP HAS BEEN ADVISED OF THE POSSIBILITY
+41:             * OR THE DAMAGES ARE FORESEEABLE. TO THE FULLEST EXTENT ALLOWABLE BY LAW,
+42:             * MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN ANY WAY RELATED TO THIS
+43:             * SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY, THAT YOU HAVE PAID
+44:             * DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
+45:             *
+46:             * MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF
+47:             * THESE TERMS.
+48:             *************************************************************************
+49:            *
+50:            * REVISION HISTORY:
+51:            *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+52:            * Author            Date      Comments on this revision
+53:            *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+54:            * CT                09/15/2008  First release of source file
+55:            * Mike Cahill       11/11/2010	Updated for HI-TECH v9.80
+56:            * MVL               02/22/2011	Modified for HI-TECH v9.81
+57:            * EA                02/18/2012	Made corrections to March C Minus routine
+58:            * Corey Simoncic    04/19/2013  Updated for XC-8
+59:            *
+60:            * Version       3.00
+61:            *
+62:            *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+63:            * ADDITIONAL NOTES:
+64:            *
+65:            **********************************************************************/
+66:            
+67:            #include "CLASSB_RAMMarchCStackTest.h"
+68:            
+69:            //Comment if used in conjunction with the March C test!
+70:            
+71:            unsigned char* CLASSB_MarchbufferAddress @ 0x22 = 0;
+72:            unsigned char CLASSB_MarchLength @ 0x26 = 0;
+73:            
+74:            unsigned char stackTestResult;
+75:            
+76:            /***********************************************************
+77:             *
+78:             * Description:
+79:             *    This function performs the March C test on the stack.
+80:             *    If the March C Minus test is desired set minus = 1
+81:             * Inputs:
+82:             *    *CLASSB_MarchCbufferAddress    :   pointer to the location to store memory during test
+83:             *    minus             :   designates the test is a March C Minus test.
+84:             *
+85:             * ********************************************************/
+86:            CLASSBRESULT CLASSB_RAMMarchCStackTest(void)
+87:            {
+88:                    volatile unsigned char i;
+89:            
+90:            /*****************************************************************************
+91:            * Save Stack here.
+92:            * ***************************************************************************/
+93:                    *CLASSB_MarchbufferAddress = STKPTR;
+069F  003F     MOVLB 0x1F
+06A0  086D     MOVF 0x6D, W
+06A1  00F0     MOVWF 0x70
+06A2  0020     MOVLB 0x0
+06A3  0822     MOVF CLASSB_MarchbufferAddress, W
+06A4  0086     MOVWF FSR1L
+06A5  0823     MOVF 0x23, W
+06A6  0087     MOVWF FSR1H
+06A7  0870     MOVF 0x70, W
+06A8  0081     MOVWF INDF1
+94:                    CLASSB_MarchbufferAddress++;
+06A9  0AA2     INCF CLASSB_MarchbufferAddress, F
+06AA  1903     BTFSC STATUS, 0x2
+06AB  0AA3     INCF 0x23, F
+95:            
+96:                    for (i = 0; i <= 15; i++)
+06AC  01F1     CLRF i
+06AD  3010     MOVLW 0x10
+06AE  0271     SUBWF i, W
+06AF  1803     BTFSC STATUS, 0x0
+06B0  2ECF     GOTO 0x6CF
+06CD  0AF1     INCF i, F
+06CE  2EAD     GOTO 0x6AD
+97:                    {
+98:                        STKPTR = i;
+06B1  0871     MOVF i, W
+06B2  003F     MOVLB 0x1F
+06B3  00ED     MOVWF 0x6D
+99:                        *CLASSB_MarchbufferAddress = TOSL;
+06B4  086E     MOVF 0x6E, W
+06B5  00F0     MOVWF 0x70
+06B6  0020     MOVLB 0x0
+06B7  0822     MOVF CLASSB_MarchbufferAddress, W
+06B8  0086     MOVWF FSR1L
+06B9  0823     MOVF 0x23, W
+06BA  0087     MOVWF FSR1H
+06BB  0870     MOVF 0x70, W
+06BC  0081     MOVWF INDF1
+100:                       CLASSB_MarchbufferAddress++;
+06BD  0AA2     INCF CLASSB_MarchbufferAddress, F
+06BE  1903     BTFSC STATUS, 0x2
+06BF  0AA3     INCF 0x23, F
+101:                       *CLASSB_MarchbufferAddress = TOSH;
+06C0  003F     MOVLB 0x1F
+06C1  086F     MOVF 0x6F, W
+06C2  00F0     MOVWF 0x70
+06C3  0020     MOVLB 0x0
+06C4  0822     MOVF CLASSB_MarchbufferAddress, W
+06C5  0086     MOVWF FSR1L
+06C6  0823     MOVF 0x23, W
+06C7  0087     MOVWF FSR1H
+06C8  0870     MOVF 0x70, W
+06C9  0081     MOVWF INDF1
+102:                       CLASSB_MarchbufferAddress++;
+06CA  0AA2     INCF CLASSB_MarchbufferAddress, F
+06CB  1903     BTFSC STATUS, 0x2
+06CC  0AA3     INCF 0x23, F
+103:                   }
+104:           
+105:           /*****************************************************************************
+106:           * Run Stack Test here.
+107:           * ***************************************************************************/
+108:           
+109:           //Write zero into stack
+110:           //        STKPTR = 0;
+111:                   #asm
+112:                   MOVLB   0x1F
+06CF  003F     MOVLB 0x1F
+113:                   MOVLW   0x1F
+06D0  301F     MOVLW 0x1F
+114:                   MOVWF   STKPTR
+06D1  00ED     MOVWF 0x6D
+115:                   Wr0:
+116:                   INCF    STKPTR
+06D2  0AED     INCF 0x6D, F
+117:                   CLRF    TOSL
+06D3  01EE     CLRF 0x6E
+118:                   CLRF    TOSH
+06D4  01EF     CLRF 0x6F
+119:                   MOVF    STKPTR, W
+06D5  086D     MOVF 0x6D, W
+120:                   XORLW   0x0F
+06D6  3A0F     XORLW 0xF
+121:                   BTFSS   STATUS, 0x02
+06D7  1D03     BTFSS STATUS, 0x2
+122:                   GOTO    Wr0
+06D8  2ED2     GOTO 0x6D2
+123:           
+124:           //TODO NEED TO FIX THE STACK TEST TO REFLECT THE CODE ABOVE THIS!!!!!!!!!!!!!!!
+125:           
+126:           //Read zero, Write one - ascending
+127:                   MOVLW   0x1F
+06D9  301F     MOVLW 0x1F
+128:                   MOVWF   STKPTR
+06DA  00ED     MOVWF 0x6D
+129:                   Rd0Wr1ASC:
+130:                   INCF    STKPTR
+06DB  0AED     INCF 0x6D, F
+131:                   BTFSC   TOSL,0
+06DC  186E     BTFSC 0x6E, 0x0
+132:                   GOTO    STACKFAIL
+06DD  2FC7     GOTO 0x7C7
+133:                   BSF     TOSL,0
+06DE  146E     BSF 0x6E, 0x0
+134:                   BTFSC   TOSL,1
+06DF  18EE     BTFSC 0x6E, 0x1
+135:                   GOTO    STACKFAIL
+06E0  2FC7     GOTO 0x7C7
+136:                   BSF     TOSL,1
+06E1  14EE     BSF 0x6E, 0x1
+137:                   BTFSC   TOSL,2
+06E2  196E     BTFSC 0x6E, 0x2
+138:                   GOTO    STACKFAIL
+06E3  2FC7     GOTO 0x7C7
+139:                   BSF     TOSL,2
+06E4  156E     BSF 0x6E, 0x2
+140:                   BTFSC   TOSL,3
+06E5  19EE     BTFSC 0x6E, 0x3
+141:                   GOTO    STACKFAIL
+06E6  2FC7     GOTO 0x7C7
+142:                   BSF     TOSL,3
+06E7  15EE     BSF 0x6E, 0x3
+143:                   BTFSC   TOSL,4
+06E8  1A6E     BTFSC 0x6E, 0x4
+144:                   GOTO    STACKFAIL
+06E9  2FC7     GOTO 0x7C7
+145:                   BSF     TOSL,4
+06EA  166E     BSF 0x6E, 0x4
+146:                   BTFSC   TOSL,5
+06EB  1AEE     BTFSC 0x6E, 0x5
+147:                   GOTO    STACKFAIL
+06EC  2FC7     GOTO 0x7C7
+148:                   BSF     TOSL,5
+06ED  16EE     BSF 0x6E, 0x5
+149:                   BTFSC   TOSL,6
+06EE  1B6E     BTFSC 0x6E, 0x6
+150:                   GOTO    STACKFAIL
+06EF  2FC7     GOTO 0x7C7
+151:                   BSF     TOSL,6
+06F0  176E     BSF 0x6E, 0x6
+152:                   BTFSC   TOSL,7
+06F1  1BEE     BTFSC 0x6E, 0x7
+153:                   GOTO    STACKFAIL
+06F2  2FC7     GOTO 0x7C7
+154:                   BSF     TOSL,7
+06F3  17EE     BSF 0x6E, 0x7
+155:                   BTFSC   TOSH,0
+06F4  186F     BTFSC 0x6F, 0x0
+156:                   GOTO    STACKFAIL
+06F5  2FC7     GOTO 0x7C7
+157:                   BSF     TOSH,0
+06F6  146F     BSF 0x6F, 0x0
+158:                   BTFSC   TOSH,1
+06F7  18EF     BTFSC 0x6F, 0x1
+159:                   GOTO    STACKFAIL
+06F8  2FC7     GOTO 0x7C7
+160:                   BSF     TOSH,1
+06F9  14EF     BSF 0x6F, 0x1
+161:                   BTFSC   TOSH,2
+06FA  196F     BTFSC 0x6F, 0x2
+162:                   GOTO    STACKFAIL
+06FB  2FC7     GOTO 0x7C7
+163:                   BSF     TOSH,2
+06FC  156F     BSF 0x6F, 0x2
+164:                   BTFSC   TOSH,3
+06FD  19EF     BTFSC 0x6F, 0x3
+165:                   GOTO    STACKFAIL
+06FE  2FC7     GOTO 0x7C7
+166:                   BSF     TOSH,3
+06FF  15EF     BSF 0x6F, 0x3
+167:                   BTFSC   TOSH,4
+0700  1A6F     BTFSC 0x6F, 0x4
+168:                   GOTO    STACKFAIL
+0701  2FC7     GOTO 0x7C7
+169:                   BSF     TOSH,4
+0702  166F     BSF 0x6F, 0x4
+170:                   BTFSC   TOSH,5
+0703  1AEF     BTFSC 0x6F, 0x5
+171:                   GOTO    STACKFAIL
+0704  2FC7     GOTO 0x7C7
+172:                   BSF     TOSH,5
+0705  16EF     BSF 0x6F, 0x5
+173:                   BTFSC   TOSH,6
+0706  1B6F     BTFSC 0x6F, 0x6
+174:                   GOTO    STACKFAIL
+0707  2FC7     GOTO 0x7C7
+175:                   BSF     TOSH,6
+0708  176F     BSF 0x6F, 0x6
+176:                   MOVF    STKPTR, W
+0709  086D     MOVF 0x6D, W
+177:                   XORLW   0x0F
+070A  3A0F     XORLW 0xF
+178:                   BTFSS   STATUS, 0x02
+070B  1D03     BTFSS STATUS, 0x2
+179:                   GOTO    Rd0Wr1ASC
+070C  2EDB     GOTO 0x6DB
+180:           
+181:           //Read one, Write zero - ascending
+182:                   MOVLW   0x1F
+070D  301F     MOVLW 0x1F
+183:                   MOVWF   STKPTR
+070E  00ED     MOVWF 0x6D
+184:                   Rd1Wr0ASC:
+185:                   INCF    STKPTR
+070F  0AED     INCF 0x6D, F
+186:                   BTFSS   TOSL,0
+0710  1C6E     BTFSS 0x6E, 0x0
+187:                   GOTO    STACKFAIL
+0711  2FC7     GOTO 0x7C7
+188:                   BCF     TOSL,0
+0712  106E     BCF 0x6E, 0x0
+189:                   BTFSS   TOSL,1
+0713  1CEE     BTFSS 0x6E, 0x1
+190:                   GOTO    STACKFAIL
+0714  2FC7     GOTO 0x7C7
+191:                   BCF     TOSL,1
+0715  10EE     BCF 0x6E, 0x1
+192:                   BTFSS   TOSL,2
+0716  1D6E     BTFSS 0x6E, 0x2
+193:                   GOTO    STACKFAIL
+0717  2FC7     GOTO 0x7C7
+194:                   BCF     TOSL,2
+0718  116E     BCF 0x6E, 0x2
+195:                   BTFSS   TOSL,3
+0719  1DEE     BTFSS 0x6E, 0x3
+196:                   GOTO    STACKFAIL
+071A  2FC7     GOTO 0x7C7
+197:                   BCF     TOSL,3
+071B  11EE     BCF 0x6E, 0x3
+198:                   BTFSS   TOSL,4
+071C  1E6E     BTFSS 0x6E, 0x4
+199:                   GOTO    STACKFAIL
+071D  2FC7     GOTO 0x7C7
+200:                   BCF     TOSL,4
+071E  126E     BCF 0x6E, 0x4
+201:                   BTFSS   TOSL,5
+071F  1EEE     BTFSS 0x6E, 0x5
+202:                   GOTO    STACKFAIL
+0720  2FC7     GOTO 0x7C7
+203:                   BCF     TOSL,5
+0721  12EE     BCF 0x6E, 0x5
+204:                   BTFSS   TOSL,6
+0722  1F6E     BTFSS 0x6E, 0x6
+205:                   GOTO    STACKFAIL
+0723  2FC7     GOTO 0x7C7
+206:                   BCF     TOSL,6
+0724  136E     BCF 0x6E, 0x6
+207:                   BTFSS   TOSL,7
+0725  1FEE     BTFSS 0x6E, 0x7
+208:                   GOTO    STACKFAIL
+0726  2FC7     GOTO 0x7C7
+209:                   BCF     TOSL,7
+0727  13EE     BCF 0x6E, 0x7
+210:                   BTFSS   TOSH,0
+0728  1C6F     BTFSS 0x6F, 0x0
+211:                   GOTO    STACKFAIL
+0729  2FC7     GOTO 0x7C7
+212:                   BCF     TOSH,0
+072A  106F     BCF 0x6F, 0x0
+213:                   BTFSS   TOSH,1
+072B  1CEF     BTFSS 0x6F, 0x1
+214:                   GOTO    STACKFAIL
+072C  2FC7     GOTO 0x7C7
+215:                   BCF     TOSH,1
+072D  10EF     BCF 0x6F, 0x1
+216:                   BTFSS   TOSH,2
+072E  1D6F     BTFSS 0x6F, 0x2
+217:                   GOTO    STACKFAIL
+072F  2FC7     GOTO 0x7C7
+218:                   BCF     TOSH,2
+0730  116F     BCF 0x6F, 0x2
+219:                   BTFSS   TOSH,3
+0731  1DEF     BTFSS 0x6F, 0x3
+220:                   GOTO    STACKFAIL
+0732  2FC7     GOTO 0x7C7
+221:                   BCF     TOSH,3
+0733  11EF     BCF 0x6F, 0x3
+222:                   BTFSS   TOSH,4
+0734  1E6F     BTFSS 0x6F, 0x4
+223:                   GOTO    STACKFAIL
+0735  2FC7     GOTO 0x7C7
+224:                   BCF     TOSH,4
+0736  126F     BCF 0x6F, 0x4
+225:                   BTFSS   TOSH,5
+0737  1EEF     BTFSS 0x6F, 0x5
+226:                   GOTO    STACKFAIL
+0738  2FC7     GOTO 0x7C7
+227:                   BCF     TOSH,5
+0739  12EF     BCF 0x6F, 0x5
+228:                   BTFSS   TOSH,6
+073A  1F6F     BTFSS 0x6F, 0x6
+229:                   GOTO    STACKFAIL
+073B  2FC7     GOTO 0x7C7
+230:                   BCF     TOSH,6
+073C  136F     BCF 0x6F, 0x6
+231:                   MOVF    STKPTR, W
+073D  086D     MOVF 0x6D, W
+232:                   XORLW   0x0F
+073E  3A0F     XORLW 0xF
+233:                   BTFSS   STATUS, 0x02
+073F  1D03     BTFSS STATUS, 0x2
+234:                   GOTO    Rd1Wr0ASC
+0740  2F0F     GOTO 0x70F
+235:                   
+236:           //March C Minus Test will skip this section.
+237:           //Read zero - descending
+238:           #ifndef MARCHCMINUS
+239:                   MOVLW   0x1F
+0741  301F     MOVLW 0x1F
+240:                   MOVWF   STKPTR
+0742  00ED     MOVWF 0x6D
+241:                   Rd0NMINUS:
+242:                   INCF    STKPTR
+0743  0AED     INCF 0x6D, F
+243:                   MOVLW   0x00
+0744  3000     MOVLW 0x0
+244:                   XORWF   TOSL
+0745  06EE     XORWF 0x6E, F
+245:                   BTFSS   STATUS,2
+0746  1D03     BTFSS STATUS, 0x2
+246:                   GOTO    STACKFAIL
+0747  2FC7     GOTO 0x7C7
+247:                   MOVLW   0X00
+0748  3000     MOVLW 0x0
+248:                   XORWF   TOSH
+0749  06EF     XORWF 0x6F, F
+249:                   BTFSS   STATUS,2
+074A  1D03     BTFSS STATUS, 0x2
+250:                   GOTO    STACKFAIL
+074B  2FC7     GOTO 0x7C7
+251:                   MOVF    STKPTR, W
+074C  086D     MOVF 0x6D, W
+252:                   XORLW   0x0F
+074D  3A0F     XORLW 0xF
+253:                   BTFSS   STATUS, 0x02
+074E  1D03     BTFSS STATUS, 0x2
+254:                   GOTO    Rd0NMINUS
+074F  2F43     GOTO 0x743
+255:           #endif
+256:           
+257:           //Read zero, Write 1 - descending
+258:                   MOVLW   0x10
+0750  3010     MOVLW 0x10
+259:                   MOVWF   STKPTR
+0751  00ED     MOVWF 0x6D
+260:                   Rd0Wr1DES:
+261:                   DECF    STKPTR
+0752  03ED     DECF 0x6D, F
+262:                   banksel TOSL
+0753  003F     MOVLB 0x1F
+263:                   BTFSC   TOSH,6
+0754  1B6F     BTFSC 0x6F, 0x6
+264:                   GOTO    STACKFAIL
+0755  2FC7     GOTO 0x7C7
+265:                   BSF     TOSH,6
+0756  176F     BSF 0x6F, 0x6
+266:                   BTFSC   TOSH,5
+0757  1AEF     BTFSC 0x6F, 0x5
+267:                   GOTO    STACKFAIL
+0758  2FC7     GOTO 0x7C7
+268:                   BSF     TOSH,5
+0759  16EF     BSF 0x6F, 0x5
+269:                   BTFSC   TOSH,4
+075A  1A6F     BTFSC 0x6F, 0x4
+270:                   GOTO    STACKFAIL
+075B  2FC7     GOTO 0x7C7
+271:                   BSF     TOSH,4
+075C  166F     BSF 0x6F, 0x4
+272:                   BTFSC   TOSH,3
+075D  19EF     BTFSC 0x6F, 0x3
+273:                   GOTO    STACKFAIL
+075E  2FC7     GOTO 0x7C7
+274:                   BSF     TOSH,3
+075F  15EF     BSF 0x6F, 0x3
+275:                   BTFSC   TOSH,2
+0760  196F     BTFSC 0x6F, 0x2
+276:                   GOTO    STACKFAIL
+0761  2FC7     GOTO 0x7C7
+277:                   BSF     TOSH,2
+0762  156F     BSF 0x6F, 0x2
+278:                   BTFSC   TOSH,1
+0763  18EF     BTFSC 0x6F, 0x1
+279:                   GOTO    STACKFAIL
+0764  2FC7     GOTO 0x7C7
+280:                   BSF     TOSH,1
+0765  14EF     BSF 0x6F, 0x1
+281:                   BTFSC   TOSH,0
+0766  186F     BTFSC 0x6F, 0x0
+282:                   GOTO    STACKFAIL
+0767  2FC7     GOTO 0x7C7
+283:                   BSF     TOSH,0
+0768  146F     BSF 0x6F, 0x0
+284:                   BTFSC   TOSL,7
+0769  1BEE     BTFSC 0x6E, 0x7
+285:                   GOTO    STACKFAIL
+076A  2FC7     GOTO 0x7C7
+286:                   BSF     TOSL,7
+076B  17EE     BSF 0x6E, 0x7
+287:                   BTFSC   TOSL,6
+076C  1B6E     BTFSC 0x6E, 0x6
+288:                   GOTO    STACKFAIL
+076D  2FC7     GOTO 0x7C7
+289:                   BSF     TOSL,6
+076E  176E     BSF 0x6E, 0x6
+290:                   BTFSC   TOSL,5
+076F  1AEE     BTFSC 0x6E, 0x5
+291:                   GOTO    STACKFAIL
+0770  2FC7     GOTO 0x7C7
+292:                   BSF     TOSL,5
+0771  16EE     BSF 0x6E, 0x5
+293:                   BTFSC   TOSL,4
+0772  1A6E     BTFSC 0x6E, 0x4
+294:                   GOTO    STACKFAIL
+0773  2FC7     GOTO 0x7C7
+295:                   BSF     TOSL,4
+0774  166E     BSF 0x6E, 0x4
+296:                   BTFSC   TOSL,3
+0775  19EE     BTFSC 0x6E, 0x3
+297:                   GOTO    STACKFAIL
+0776  2FC7     GOTO 0x7C7
+298:                   BSF     TOSL,3
+0777  15EE     BSF 0x6E, 0x3
+299:                   BTFSC   TOSL,2
+0778  196E     BTFSC 0x6E, 0x2
+300:                   GOTO    STACKFAIL
+0779  2FC7     GOTO 0x7C7
+301:                   BSF     TOSL,2
+077A  156E     BSF 0x6E, 0x2
+302:                   BTFSC   TOSL,1
+077B  18EE     BTFSC 0x6E, 0x1
+303:                   GOTO    STACKFAIL
+077C  2FC7     GOTO 0x7C7
+304:                   BSF     TOSL,1
+077D  14EE     BSF 0x6E, 0x1
+305:                   BTFSC   TOSL,0
+077E  186E     BTFSC 0x6E, 0x0
+306:                   GOTO    STACKFAIL
+077F  2FC7     GOTO 0x7C7
+307:                   BSF     TOSL,0
+0780  146E     BSF 0x6E, 0x0
+308:                   MOVF    STKPTR, F
+0781  08ED     MOVF 0x6D, F
+309:           //        XORLW   0x0F
+310:                   BTFSS   STATUS, 0x02
+0782  1D03     BTFSS STATUS, 0x2
+311:                   GOTO    Rd0Wr1DES
+0783  2F52     GOTO 0x752
+312:           
+313:           //Read one, Write zero - descending
+314:                   MOVLW   0x10
+0784  3010     MOVLW 0x10
+315:                   MOVWF   STKPTR
+0785  00ED     MOVWF 0x6D
+316:                   Rd1Wr0DES:
+317:                   DECF    STKPTR
+0786  03ED     DECF 0x6D, F
+318:                   BTFSS   TOSH,6
+0787  1F6F     BTFSS 0x6F, 0x6
+319:                   GOTO    STACKFAIL
+0788  2FC7     GOTO 0x7C7
+320:                   BCF     TOSH,6
+0789  136F     BCF 0x6F, 0x6
+321:                   BTFSS   TOSH,5
+078A  1EEF     BTFSS 0x6F, 0x5
+322:                   GOTO    STACKFAIL
+078B  2FC7     GOTO 0x7C7
+323:                   BCF     TOSH,5
+078C  12EF     BCF 0x6F, 0x5
+324:                   BTFSS   TOSH,4
+078D  1E6F     BTFSS 0x6F, 0x4
+325:                   GOTO    STACKFAIL
+078E  2FC7     GOTO 0x7C7
+326:                   BCF     TOSH,4
+078F  126F     BCF 0x6F, 0x4
+327:                   BTFSS   TOSH,3
+0790  1DEF     BTFSS 0x6F, 0x3
+328:                   GOTO    STACKFAIL
+0791  2FC7     GOTO 0x7C7
+329:                   BCF     TOSH,3
+0792  11EF     BCF 0x6F, 0x3
+330:                   BTFSS   TOSH,2
+0793  1D6F     BTFSS 0x6F, 0x2
+331:                   GOTO    STACKFAIL
+0794  2FC7     GOTO 0x7C7
+332:                   BCF     TOSH,2
+0795  116F     BCF 0x6F, 0x2
+333:                   BTFSS   TOSH,1
+0796  1CEF     BTFSS 0x6F, 0x1
+334:                   GOTO    STACKFAIL
+0797  2FC7     GOTO 0x7C7
+335:                   BCF     TOSH,1
+0798  10EF     BCF 0x6F, 0x1
+336:                   BTFSS   TOSH,0
+0799  1C6F     BTFSS 0x6F, 0x0
+337:                   GOTO    STACKFAIL
+079A  2FC7     GOTO 0x7C7
+338:                   BCF     TOSH,0
+079B  106F     BCF 0x6F, 0x0
+339:                   BTFSS   TOSL,7
+079C  1FEE     BTFSS 0x6E, 0x7
+340:                   GOTO    STACKFAIL
+079D  2FC7     GOTO 0x7C7
+341:                   BCF     TOSL,7
+079E  13EE     BCF 0x6E, 0x7
+342:                   BTFSS   TOSL,6
+079F  1F6E     BTFSS 0x6E, 0x6
+343:                   GOTO    STACKFAIL
+07A0  2FC7     GOTO 0x7C7
+344:                   BCF     TOSL,6
+07A1  136E     BCF 0x6E, 0x6
+345:                   BTFSS   TOSL,5
+07A2  1EEE     BTFSS 0x6E, 0x5
+346:                   GOTO    STACKFAIL
+07A3  2FC7     GOTO 0x7C7
+347:                   BCF     TOSL,5
+07A4  12EE     BCF 0x6E, 0x5
+348:                   BTFSS   TOSL,4
+07A5  1E6E     BTFSS 0x6E, 0x4
+349:                   GOTO    STACKFAIL
+07A6  2FC7     GOTO 0x7C7
+350:                   BCF     TOSL,4
+07A7  126E     BCF 0x6E, 0x4
+351:                   BTFSS   TOSL,3
+07A8  1DEE     BTFSS 0x6E, 0x3
+352:                   GOTO    STACKFAIL
+07A9  2FC7     GOTO 0x7C7
+353:                   BCF     TOSL,3
+07AA  11EE     BCF 0x6E, 0x3
+354:                   BTFSS   TOSL,2
+07AB  1D6E     BTFSS 0x6E, 0x2
+355:                   GOTO    STACKFAIL
+07AC  2FC7     GOTO 0x7C7
+356:                   BCF     TOSL,2
+07AD  116E     BCF 0x6E, 0x2
+357:                   BTFSS   TOSL,1
+07AE  1CEE     BTFSS 0x6E, 0x1
+358:                   GOTO    STACKFAIL
+07AF  2FC7     GOTO 0x7C7
+359:                   BCF     TOSL,1
+07B0  10EE     BCF 0x6E, 0x1
+360:                   BTFSS   TOSL,0
+07B1  1C6E     BTFSS 0x6E, 0x0
+361:                   GOTO    STACKFAIL
+07B2  2FC7     GOTO 0x7C7
+362:                   BCF     TOSL,0
+07B3  106E     BCF 0x6E, 0x0
+363:                   MOVF    STKPTR, F
+07B4  08ED     MOVF 0x6D, F
+364:           //        XORLW   0x0F
+365:                   BTFSS   STATUS, 0x02
+07B5  1D03     BTFSS STATUS, 0x2
+366:                   GOTO    Rd0Wr1DES
+07B6  2F52     GOTO 0x752
+367:           
+368:           //Read one - ascending
+369:                   MOVLW   0x1F
+07B7  301F     MOVLW 0x1F
+370:                   MOVWF   STKPTR
+07B8  00ED     MOVWF 0x6D
+371:                   Rd0ASC:
+372:                   INCF    STKPTR
+07B9  0AED     INCF 0x6D, F
+373:                   MOVLW   0x00
+07BA  3000     MOVLW 0x0
+374:                   XORWF   TOSL
+07BB  06EE     XORWF 0x6E, F
+375:                   BTFSS   STATUS,2
+07BC  1D03     BTFSS STATUS, 0x2
+376:                   GOTO    STACKFAIL
+07BD  2FC7     GOTO 0x7C7
+377:                   MOVLW   0X00
+07BE  3000     MOVLW 0x0
+378:                   XORWF   TOSH
+07BF  06EF     XORWF 0x6F, F
+379:                   BTFSS   STATUS,2
+07C0  1D03     BTFSS STATUS, 0x2
+380:                   GOTO    STACKFAIL
+07C1  2FC7     GOTO 0x7C7
+381:                   MOVF    STKPTR, W
+07C2  086D     MOVF 0x6D, W
+382:                   XORLW   0x0F
+07C3  3A0F     XORLW 0xF
+383:                   BTFSS   STATUS, 0x02
+07C4  1D03     BTFSS STATUS, 0x2
+384:                   GOTO    Rd0ASC
+07C5  2FB9     GOTO 0x7B9
+385:           
+386:           //The Stack test passed!
+387:                   GOTO    STACKEND
+07C6  2FCA     GOTO 0x7CA
+388:           
+389:           //The Stack test failed!
+390:                   STACKFAIL:
+391:                   BANKSEL (_stackTestResult)
+07C7  0020     MOVLB 0x0
+392:                   movlw   0xFF
+07C8  30FF     MOVLW 0xFF
+393:                   movwf   (_stackTestResult)
+07C9  00F3     MOVWF stackTestResult
+394:                   //GOTO    STACKEND
+395:           
+396:                   STACKEND:
+397:                   NOP
+07CA  0000     NOP
+398:                   #endasm
+399:           
+400:           
+401:           /*****************************************************************************
+402:           * Restore Stack here.
+403:           * ***************************************************************************/
+404:           //        CLASSB_MarchCbufferAddress--;
+405:           //        for (i=32; i>16; i--)
+406:           //        {
+407:           //            STKPTR = i;
+408:           //            TOSL=(*CLASSB_MarchCbufferAddress);
+409:           //            CLASSB_MarchCbufferAddress--;
+410:           //        }
+411:           //        for (i=16; i>0; i++)
+412:           //        {
+413:           //            STKPTR = i;
+414:           //            TOSH=(*CLASSB_MarchCbufferAddress);
+415:           //            CLASSB_MarchCbufferAddress--;
+416:           //        }
+417:           //        for (i = 0; i < 15; i++)
+418:           //        {
+419:           //            STKPTR = i;
+420:           //            *CLASSB_MarchCbufferAddress = TOSL;
+421:           //            CLASSB_MarchCbufferAddress++;
+422:           //            *CLASSB_MarchCbufferAddress = TOSH;
+423:           //            CLASSB_MarchCbufferAddress++;
+424:           //        }
+425:           
+426:           //        CLASSB_MarchCbufferAddress = (char*)0x28;
+427:                   CLASSB_MarchbufferAddress--;
+07CB  3001     MOVLW 0x1
+07CC  0020     MOVLB 0x0
+07CD  02A2     SUBWF CLASSB_MarchbufferAddress, F
+07CE  3000     MOVLW 0x0
+07CF  3BA3     SUBWFB 0x23, F
+428:                   for (i = 16; i >= 1; i--)
+07D0  3010     MOVLW 0x10
+07D1  00F1     MOVWF i
+07D2  08F1     MOVF i, F
+07D3  1903     BTFSC STATUS, 0x2
+07D4  2FF4     GOTO 0x7F4
+07F2  03F1     DECF i, F
+07F3  2FD2     GOTO 0x7D2
+429:                   {
+430:                       STKPTR = i - 1;
+07D5  0871     MOVF i, W
+07D6  3EFF     ADDLW 0xFF
+07D7  003F     MOVLB 0x1F
+07D8  00ED     MOVWF 0x6D
+431:                       TOSH = *CLASSB_MarchbufferAddress;
+07D9  0020     MOVLB 0x0
+07DA  0822     MOVF CLASSB_MarchbufferAddress, W
+07DB  0086     MOVWF FSR1L
+07DC  0823     MOVF 0x23, W
+07DD  0087     MOVWF FSR1H
+07DE  0801     MOVF INDF1, W
+07DF  003F     MOVLB 0x1F
+07E0  00EF     MOVWF 0x6F
+432:                       CLASSB_MarchbufferAddress--;
+07E1  3001     MOVLW 0x1
+07E2  0020     MOVLB 0x0
+07E3  02A2     SUBWF CLASSB_MarchbufferAddress, F
+07E4  3000     MOVLW 0x0
+07E5  3BA3     SUBWFB 0x23, F
+433:                       TOSL = *CLASSB_MarchbufferAddress;
+07E6  0822     MOVF CLASSB_MarchbufferAddress, W
+07E7  0086     MOVWF FSR1L
+07E8  0823     MOVF 0x23, W
+07E9  0087     MOVWF FSR1H
+07EA  0801     MOVF INDF1, W
+07EB  003F     MOVLB 0x1F
+07EC  00EE     MOVWF 0x6E
+434:                       CLASSB_MarchbufferAddress--;
+07ED  3001     MOVLW 0x1
+07EE  0020     MOVLB 0x0
+07EF  02A2     SUBWF CLASSB_MarchbufferAddress, F
+07F0  3000     MOVLW 0x0
+07F1  3BA3     SUBWFB 0x23, F
+435:                   }
+436:           
+437:            //       CLASSB_MarchCbufferAddress--;
+438:                   STKPTR = *CLASSB_MarchbufferAddress;
+07F4  0822     MOVF CLASSB_MarchbufferAddress, W
+07F5  0086     MOVWF FSR1L
+07F6  0823     MOVF 0x23, W
+07F7  0087     MOVWF FSR1H
+07F8  0801     MOVF INDF1, W
+07F9  003F     MOVLB 0x1F
+07FA  00ED     MOVWF 0x6D
+439:           
+440:                   if (stackTestResult == 0xFF)
+07FB  0873     MOVF stackTestResult, W
+07FC  3AFF     XORLW 0xFF
+07FD  1903     BTFSC STATUS, 0x2
+441:                   {
+442:                       return CLASSB_TEST_FAIL;
+07FE  3401     RETLW 0x1
+443:                   }
+444:                   else
+445:                   {
+446:                       return CLASSB_TEST_PASS;
+07FF  3400     RETLW 0x0
+447:                   }
+448:           }
+0800  3FFF     MOVWI [-1]FSR1
