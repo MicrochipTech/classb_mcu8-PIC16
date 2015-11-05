@@ -1,0 +1,272 @@
+HI-TECH Software C Compiler 
+
+Linker command line:
+
+--edf=C:\Program Files\HI-TECH Software\PICC\9.81\dat\en_msgs.txt -cs \
+  -h+SSL_ProgCounterTest.sym -z -Q16F887 -ol.obj -MPCTestMapFile -E1 \
+  -p_SSL_TestFunction1_text=500h -p_SSL_TestFunction2_text=400h \
+  -ACONST=00h-0FFhx32 \
+  -ACODE=00h-03FFh,0400h-04FFh,0500h-07FFh,0800h-0FFFhx3 \
+  -ASTRCODE=00h-01FFFh -AENTRY=00h-0FFhx32 -ASTRING=00h-0FFhx32 \
+  -ABANK0=020h-06Fh -ABANK1=0A0h-0EFh -ABANK2=0110h-016Fh \
+  -ABANK3=0190h-01EFh -ARAM=020h-06Fh,0A0h-0EFh,0110h-016Fh,0190h-01EFh \
+  -AABS1=020h-07Fh,0A0h-0EFh,0110h-016Fh,0190h-01EFh -ACOMMON=070h-07Fh \
+  -ASFR0=00h-01Fh -ASFR1=080h-09Fh -ASFR2=0100h-010Fh -ASFR3=0180h-018Fh \
+  -preset_vec=00h,intentry,init,end_init -ppowerup=CODE -pfunctab=CODE \
+  -ACONFIG=02007h-02008h -pconfig=CONFIG -DCONFIG=2 -AIDLOC=02000h-02003h \
+  -pidloc=IDLOC -DIDLOC=2 -AEEDATA=00h-0FFh/02100h -peeprom_data=EEDATA \
+  -DEEDATA=2 -DCODE=2 -DSTRCODE=2 -DSTRING=2 -DCONST=2 -DENTRY=2 -k \
+  C:\DOCUME~1\m91225\LOCALS~1\Temp\s4ks.obj SSL_ProgCounterTest.obj 
+
+Object code version is 3.10
+
+Machine type is 16F887
+
+
+
+                Name                               Link     Load   Length Selector   Space Scale
+C:\DOCUME~1\m91225\LOCALS~1\Temp\s4ks.obj
+                end_init                              0        0        3        0       0
+SSL_ProgCounterTest.obj
+                functab                             300      300        C        6       0
+                _SSL_TestFunction1_text             500      500        5      A00       0
+                _SSL_TestFunction2_text             400      400        5      800       0
+                text30                              30C      30C       37        6       0
+                maintext                            343      343       13        6       0
+                cstackCOMMON                         70       70        6       70       1
+                bssCOMMON                            76       76        4       70       1
+                cinit                               356      356        8        6       0
+                nvCOMMON                             7A       7A        2       70       1
+
+TOTAL           Name                               Link     Load   Length     Space
+        CLASS   CONST          
+
+        CLASS   CODE           
+                end_init                              0        0        3         0
+                functab                             300      300        C         0
+                _SSL_TestFunction1_text             500      500        5         0
+                _SSL_TestFunction2_text             400      400        5         0
+                text30                              30C      30C       37         0
+                maintext                            343      343       13         0
+                cinit                               356      356        8         0
+
+        CLASS   STRCODE        
+
+        CLASS   ENTRY          
+
+        CLASS   STRING         
+
+        CLASS   BANK0          
+
+        CLASS   BANK1          
+
+        CLASS   BANK2          
+
+        CLASS   BANK3          
+
+        CLASS   RAM            
+
+        CLASS   ABS1           
+                abs_s1                               7E       7E        2         1
+
+        CLASS   COMMON         
+                cstackCOMMON                         70       70        6         1
+                bssCOMMON                            76       76        4         1
+                nvCOMMON                             7A       7A        2         1
+
+        CLASS   SFR0           
+
+        CLASS   SFR1           
+
+        CLASS   SFR2           
+
+        CLASS   SFR3           
+
+        CLASS   CONFIG         
+
+        CLASS   IDLOC          
+
+        CLASS   EEDATA         
+
+
+
+SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class     Delta
+
+                reset_vec                      000000  000003  000003         0       0  CODE        2
+                cstackCOMMON                   000070  00000C  00007C        70       1  COMMON      1
+                functab                        000300  00005E  00035E         6       0  CODE        2
+                _SSL_TestFunction2_text        000400  000005  000405       800       0  CODE        2
+                _SSL_TestFunction1_text        000500  000005  000505       A00       0  CODE        2
+
+
+UNUSED ADDRESS RANGES
+
+        Name                Unused          Largest block    Delta
+        BANK0            020-06F            50           1
+        BANK1            0A0-0EF            50           1
+        BANK2            110-16F            60           1
+        BANK3            190-1EF            60           1
+        CODE             003-2FF           2FD           2
+                         35E-3FF            A2
+                         405-4FF            FB
+                         505-1FFF           800
+        COMMON           07C-07D             2           1
+        CONFIG           2007-2008             2           2
+        CONST            003-2FF           100           2
+                         35E-3FF            A2
+                         405-4FF            FB
+                         505-1FFF           100
+        EEDATA           2100-21FF           100           2
+        ENTRY            003-2FF           100           2
+                         35E-3FF            A2
+                         405-4FF            FB
+                         505-1FFF           100
+        IDLOC            2000-2003             4           2
+        RAM              020-06F            50           1
+                         0A0-0EF            50
+                         110-16F            60
+                         190-1EF            60
+        SFR0             000-01F            20           1
+        SFR1             080-09F            20           1
+        SFR2             100-10F            10           1
+        SFR3             180-18F            10           1
+        STRCODE          003-2FF           2FD           2
+                         35E-3FF            A2
+                         405-4FF            FB
+                         505-1FFF          1AFB
+        STRING           003-2FF           100           2
+                         35E-3FF            A2
+                         405-4FF            FB
+                         505-1FFF           100
+
+                                  Symbol Table
+
+??_SSL_PCtest               cstackCOMMON            074
+??_SSL_TestFunction1        cstackCOMMON            072
+??_SSL_TestFunction2        cstackCOMMON            072
+??_main                     cstackCOMMON            076
+?_SSL_PCtest                cstackCOMMON            072
+?_SSL_TestFunction1         cstackCOMMON            070
+?_SSL_TestFunction2         cstackCOMMON            070
+?_main                      cstackCOMMON            070
+_ProgramCounterResult       nvCOMMON                07A
+_SSL_PCtest                 text30                  30C
+_SSL_TestFunction1          _SSL_TestFunction1_text 500
+_SSL_TestFunction1_absaddr  (abs)                   500
+_SSL_TestFunction2          _SSL_TestFunction2_text 400
+_SSL_TestFunction2_absaddr  (abs)                   400
+__H_SSL_TestFunction1_text  _SSL_TestFunction1_text 505
+__H_SSL_TestFunction2_text  _SSL_TestFunction2_text 405
+__Habs1                     abs1                    000
+__Hbank0                    bank0                   000
+__Hbank1                    bank1                   000
+__Hbank2                    bank2                   000
+__Hbank3                    bank3                   000
+__HbssCOMMON                bssCOMMON               000
+__Hcinit                    cinit                   000
+__Hclrtext                  clrtext                 000
+__Hcode                     code                    000
+__Hcommon                   common                  000
+__Hconfig                   config                  000
+__HcstackCOMMON             cstackCOMMON            000
+__Heeprom_data              eeprom_data             000
+__Hend_init                 end_init                003
+__Hfunctab                  functab                 30C
+__Hidloc                    idloc                   000
+__Hinit                     init                    000
+__Hintentry                 intentry                000
+__Hmaintext                 maintext                000
+__HnvCOMMON                 nvCOMMON                000
+__Hpa_nodes                 pa_nodes                000
+__Hpowerup                  powerup                 000
+__Hram                      ram                     000
+__Hreset_vec                reset_vec               000
+__Hsfr0                     sfr0                    000
+__Hsfr1                     sfr1                    000
+__Hsfr2                     sfr2                    000
+__Hsfr3                     sfr3                    000
+__Hstrings                  strings                 000
+__Htext                     text                    000
+__L_SSL_TestFunction1_text  _SSL_TestFunction1_text 500
+__L_SSL_TestFunction2_text  _SSL_TestFunction2_text 400
+__Labs1                     abs1                    000
+__Lbank0                    bank0                   000
+__Lbank1                    bank1                   000
+__Lbank2                    bank2                   000
+__Lbank3                    bank3                   000
+__LbssCOMMON                bssCOMMON               000
+__Lcinit                    cinit                   000
+__Lclrtext                  clrtext                 000
+__Lcode                     code                    000
+__Lcommon                   common                  000
+__Lconfig                   config                  000
+__LcstackCOMMON             cstackCOMMON            000
+__Leeprom_data              eeprom_data             000
+__Lend_init                 end_init                000
+__Lfunctab                  functab                 300
+__Lidloc                    idloc                   000
+__Linit                     init                    000
+__Lintentry                 intentry                000
+__Lmaintext                 maintext                000
+__LnvCOMMON                 nvCOMMON                000
+__Lpa_nodes                 pa_nodes                000
+__Lpowerup                  powerup                 000
+__Lram                      ram                     000
+__Lreset_vec                reset_vec               000
+__Lsfr0                     sfr0                    000
+__Lsfr1                     sfr1                    000
+__Lsfr2                     sfr2                    000
+__Lsfr3                     sfr3                    000
+__Lstrings                  strings                 000
+__Ltext                     text                    000
+__S0                        (abs)                   35E
+__S1                        (abs)                   07C
+__S2                        (abs)                   000
+__end_of_SSL_PCtest         text30                  33D
+__end_of_SSL_TestFunction1  _SSL_TestFunction1_text 505
+__end_of_SSL_TestFunction2  _SSL_TestFunction2_text 405
+__end_of_main               maintext                356
+__p_SSL_TestFunction1_text  _SSL_TestFunction1_text 500
+__p_SSL_TestFunction2_text  _SSL_TestFunction2_text 400
+__pbssCOMMON                bssCOMMON               076
+__pcstackCOMMON             cstackCOMMON            070
+__pfunctab                  functab                 300
+__pmaintext                 maintext                343
+__pnvCOMMON                 nvCOMMON                07A
+__ptext30                   text30                  30C
+__size_of_SSL_PCtest        (abs)                   000
+__size_of_SSL_TestFunction1 (abs)                   000
+__size_of_SSL_TestFunction2 (abs)                   000
+__size_of_main              (abs)                   000
+_exit                       init                    000
+_main                       maintext                343
+_returnAddress              bssCOMMON               076
+_tempAddress                bssCOMMON               078
+btemp                       (abs)                   07E
+end_of_initialization       cinit                   35A
+entry__SSL_TestFunction1    functab                 306
+entry__SSL_TestFunction2    functab                 309
+fpbase                      functab                 305
+fptable                     functab                 300
+fptotal                     (abs)                   006
+intlevel0                   functab                 300
+intlevel1                   functab                 300
+intlevel2                   functab                 300
+intlevel3                   functab                 300
+intlevel4                   functab                 300
+intlevel5                   functab                 300
+l25                                                    
+l28                                                    
+l401                                                   
+l405                                                   
+l409                                                   
+l411                                                   
+l413                                                   
+l421                                                   
+l423                                                   
+l433                                                   
+l435                                                   
+reset_vec                   reset_vec               000
+start                       init                    000
+start_initialization        cinit                   356
+wtemp0                      (abs)                   07E

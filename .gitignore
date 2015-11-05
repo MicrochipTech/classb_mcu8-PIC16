@@ -1,0 +1,14 @@
+#### SOFTWARE SECTION ####
+# MPLab files
+software/**/*.*
+software/**/funclist
+!software/**/*.c
+!software/**/*.h
+!software/**/*.mcp
+!software/**/*.hex
+
+#### HARDWARE SECTION ####
+
+#### DOCUMENTS SECTION ####
+
+#### PROJECT CUSTOM SECTION ####
