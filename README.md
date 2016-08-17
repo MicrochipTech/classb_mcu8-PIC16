@@ -9,7 +9,7 @@ Microchip has developed a library of low-level software routines and hardware pe
 This version of the Class B library complies with Table H1 of IEC60730{ed5.0}b.
 
 #### Microchip Required Tools
-The libraries were tested using [Microchip MPLAB<sup>&reg;</sup> XC8 Compiler](http://www.microchip.com/xc8) versions 1.31 to 1.35
+The libraries were tested using [Microchip MPLAB<sup>&reg;</sup> XC8 Compiler](http://www.microchip.com/xc8) versions 1.31 to 1.36
 
 #### Getting Started
 See [Class B Library Help.pdf](./documents/Class B Library Help.pdf) to get started using the libraries.
